@@ -10,9 +10,16 @@ namespace RegularExpressionDataGenerator
 
         public INode Parse(string expression)
         {
+            var tokens = new Lexer().Tokenize(expression);
+
+            return Parse(tokens);
+        }
+
+        public INode Parse(IEnumerable<IToken> tokens)
+        {
+            _tokens = tokens.GetEnumerator();
             _states = new Stack<ParseState>();
             _currentState = new ParseState();
-            _tokens = new Lexer().Tokenize(expression).GetEnumerator();
             while (_tokens.MoveNext())
             {
                 _currentState.Handle(this);

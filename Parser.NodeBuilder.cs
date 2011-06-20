@@ -45,19 +45,22 @@ namespace RegularExpressionDataGenerator
         {
             var space = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)32));
             var t = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)9));
+            /*
             var cr = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)13));
             var nl = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)10));
             var vt = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)11));
             var ff = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)12));
+            */
 
             var set = new BracketNode(new BracketRightToken());
             set.ChildNodes.Add(space);
             set.ChildNodes.Add(t);
+            /*
             set.ChildNodes.Add(cr);
             set.ChildNodes.Add(nl);
             set.ChildNodes.Add(vt);
             set.ChildNodes.Add(ff);
-
+            */
             return set;
         }
 

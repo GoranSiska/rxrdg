@@ -46,10 +46,15 @@ namespace RegularExpressionDataGenerator
             {
                 case '^':
                     return TokenBuilder.BuildNotToken();
+                case '\\':
+                    context.ToState(new SetState());
+                    context.ToState(new EscapeState());
+                    break;
                 default:
                     context.ToState(new SetState());
                     return TokenBuilder.BuildLiteralToken(context.Current);
             }
+            return null;
         }
     }
 
@@ -65,9 +70,13 @@ namespace RegularExpressionDataGenerator
                     return TokenBuilder.BuildBracketRightToken();
                 case '-':
                     return TokenBuilder.BuildRangeToken();
+                case '\\':
+                    context.ToState(new EscapeState());
+                    break;
                 default:
                     return TokenBuilder.BuildLiteralToken(context.Current);
             }
+            return null;
         }
     }
 

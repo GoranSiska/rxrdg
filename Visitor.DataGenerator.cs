@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -73,31 +74,14 @@ namespace RegularExpressionDataGenerator
             }
 
             var nodes = new LiteralNodeCollection();
-            foreach (var childNode in current.ChildNodes)
+            foreach (var expandedNode in Expand(current))
             {
-                switch (childNode.Token.TokenType)
+                if (nodes.Contains(expandedNode) == false)
                 {
-                    case TokenType.Literal:
-                        var literalChildNode = (LiteralNode)childNode;
-                        if (nodes.Contains(literalChildNode) == false)
-                        {
-                            nodes.Add(literalChildNode);
-                        }
-                        break;
-                    case TokenType.Range:
-                        var min = (int)((LiteralNode)childNode.ChildNodes[0]).Token.Character;
-                        var max = (int)((LiteralNode)childNode.ChildNodes[1]).Token.Character;
-                        for (var i = min; i < max; i++)
-                        {
-                            var c = (char)i;
-                            if (nodes.Contains(c) == false)
-                            {
-                                nodes.Add(NodeBuilder.BuildLiteralNode(TokenBuilder.BuildLiteralToken(c)));
-                            }
-                        }
-                        break;
+                    nodes.Add(expandedNode);
                 }
             }
+
             var index = RandomNumberProvider.GetRandomNumber(0, nodes.Count);
             nodes[index].Accept(this);
         }
@@ -110,14 +94,6 @@ namespace RegularExpressionDataGenerator
             var literal = new LiteralNode(TokenBuilder.BuildLiteralToken((char)index));
             literal.Accept(this);             
         }
-
-        private class LiteralNodeCollection : System.Collections.ObjectModel.KeyedCollection<char, LiteralNode>
-        {
-            protected override char GetKeyForItem(LiteralNode item)
-            {
-                return item.Token.Character;
-            }
-        }       
 
         public void Visit(NotNode node)
         {
@@ -133,16 +109,26 @@ namespace RegularExpressionDataGenerator
                 current = node.ChildNodes[0];
             }
 
-            foreach (var childNode in current.ChildNodes)
+            foreach (var expandedNode in Expand(current))
+            {
+                if (nodes.Contains(expandedNode))
+                {
+                    nodes.Remove(expandedNode);
+                }
+            }
+
+            var index = RandomNumberProvider.GetRandomNumber(0, nodes.Count);
+            nodes[index].Accept(this);
+        }
+
+        private static IEnumerable<LiteralNode> Expand(INode bracketNode)
+        {
+            foreach (var childNode in bracketNode.ChildNodes)
             {
                 switch (childNode.Token.TokenType)
                 {
                     case TokenType.Literal:
-                        var literalChildNode = (LiteralNode)childNode;
-                        if (nodes.Contains(literalChildNode))
-                        {
-                            nodes.Remove(literalChildNode);
-                        }
+                        yield return (LiteralNode)childNode;
                         break;
                     case TokenType.Range:
                         var min = (int)((LiteralNode)childNode.ChildNodes[0]).Token.Character;
@@ -150,20 +136,27 @@ namespace RegularExpressionDataGenerator
                         for (var i = min; i < max; i++)
                         {
                             var c = (char)i;
-                            if(nodes.Contains(c))
-                            {
-                                nodes.Remove(c);
-                            }
+                            yield return NodeBuilder.BuildLiteralNode(TokenBuilder.BuildLiteralToken(c));
                         }
                         break;
-                    default:
-                        //should not happen
+                    case TokenType.BracketRight:
+                        foreach (var node in Expand(childNode))
+                        {
+                            yield return node;
+                        }
                         break;
                 }
             }
-            var index = RandomNumberProvider.GetRandomNumber(0, nodes.Count);
-            nodes[index].Accept(this);
         }
+
+        private class LiteralNodeCollection : System.Collections.ObjectModel.KeyedCollection<char, LiteralNode>
+        {
+            protected override char GetKeyForItem(LiteralNode item)
+            {
+                return item.Token.Character;
+            }
+        }       
+
     }
 
     public static class RandomNumberProvider
