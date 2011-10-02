@@ -165,8 +165,16 @@ namespace RegularExpressionDataGenerator
                     context.EndState();
                     return TokenBuilder.BuildRepetitionToken(_minOccurs, _maxOccurs);
                 default:
-                    _currentNumber = _currentNumber * 10 + int.Parse(character.ToString()); //test?
-                    _isParsingFirstValue = false;
+                    var result = 0;
+                    if(int.TryParse(character.ToString(), out result))
+                    {
+                        _currentNumber = _currentNumber*10 + result;
+                        _isParsingFirstValue = false;
+                    }
+                    else
+                    {
+                        throw   new ArgumentException();
+                    }
                     break;
             }
             return null;
