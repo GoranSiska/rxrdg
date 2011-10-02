@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxrdgDemoApp", "RxrdgDemoAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegularExpressionDataGenerator", "RegularExpressionRandomDataGenerator\RegularExpressionDataGenerator.csproj", "{E22A2421-927D-4873-8987-CA6EDDA48A3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxrdgTests", "RxrdgTests\RxrdgTests.csproj", "{EC539EE0-2C6F-40FE-809D-82A659DE477F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{E22A2421-927D-4873-8987-CA6EDDA48A3B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E22A2421-927D-4873-8987-CA6EDDA48A3B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E22A2421-927D-4873-8987-CA6EDDA48A3B}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC539EE0-2C6F-40FE-809D-82A659DE477F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
