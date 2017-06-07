@@ -133,7 +133,7 @@ namespace RegularExpressionDataGenerator
                     case TokenType.Range:
                         var min = (int)((LiteralNode)childNode.ChildNodes[0]).Token.Character;
                         var max = (int)((LiteralNode)childNode.ChildNodes[1]).Token.Character;
-                        for (var i = min; i < max; i++)
+                        for (var i = min; i <= max; i++)
                         {
                             var c = (char)i;
                             yield return NodeBuilder.BuildLiteralNode(TokenBuilder.BuildLiteralToken(c));
