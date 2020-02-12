@@ -4,10 +4,16 @@ namespace RegularExpressionDataGenerator
 {
     public class Lexer : IContext
     {
+        public TokenBuilder TokenBuilder { get; }
         Stack<IState> _states;
         IState _currentState;
         IEnumerator<char> _characters;
 
+        public Lexer(TokenBuilder tokenBuilder)
+        {
+            TokenBuilder = tokenBuilder;
+        }
+        
         public IEnumerable<IToken> Tokenize(string expression)
         {
             _states = new Stack<IState>();

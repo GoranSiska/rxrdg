@@ -4,13 +4,19 @@ namespace RegularExpressionDataGenerator
 {
     public class Parser
     {
+        public NodeBuilder NodeBuilder { get; }
         Stack<ParseState> _states;
         ParseState _currentState;
         IEnumerator<IToken> _tokens;
+        
+        public Parser(NodeBuilder nodeBuilder)
+        {
+            NodeBuilder = nodeBuilder;
+        }
 
         public INode Parse(string expression)
         {
-            var tokens = new Lexer().Tokenize(expression);
+            var tokens = new Lexer(NodeBuilder.TokenBuilder).Tokenize(expression);
 
             return Parse(tokens);
         }

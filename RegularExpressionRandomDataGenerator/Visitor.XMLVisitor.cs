@@ -10,13 +10,16 @@ namespace RegularExpressionDataGenerator
 
         private int _level;
         private readonly StringBuilder _builder = new StringBuilder();
+        public NodeBuilder NodeBuilder { get; }
 
-        private XmlVisitor()
-        { }
-
-        public static string Visit(INode node)
+        private XmlVisitor(NodeBuilder nodeBuilder)
         {
-            var visitor = new XmlVisitor();
+            NodeBuilder = nodeBuilder;
+        }
+
+        public static string Visit(INode node, NodeBuilder nodeBuilder)
+        {
+            var visitor = new XmlVisitor(nodeBuilder);
             node.Accept(visitor);
             return visitor._builder.ToString();
         }
