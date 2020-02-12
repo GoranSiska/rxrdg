@@ -7,6 +7,7 @@ namespace RegularExpressionDataGenerator
     {
         public void Handle(Parser context)
         {
+            var nodeBuilder = context.NodeBuilder;
             var token = context.Current;
             switch (token.TokenType)
             {
@@ -49,7 +50,7 @@ namespace RegularExpressionDataGenerator
                     context.EndState();
                     break;
                 case TokenType.Any:
-                    var anyNode = NodeBuilder.BuildAnyNode();
+                    var anyNode = nodeBuilder.BuildAnyNode();
                     AddOperand(anyNode);
                     break;
                 case TokenType.Not:
@@ -59,32 +60,32 @@ namespace RegularExpressionDataGenerator
                     break;
                 case TokenType.Numeric:
                     var numeric = (NumericToken)token;
-                    INode numericNode = NodeBuilder.BuildNumericNode();
+                    INode numericNode = nodeBuilder.BuildNumericNode();
                     AddOperand(numericNode);
                     break;
                 case TokenType.Word:
                     var word = (WordToken)token;
-                    INode wordNode = NodeBuilder.BuildWordNode();
+                    INode wordNode = nodeBuilder.BuildWordNode();
                     AddOperand(wordNode);
                     break;
                 case TokenType.Whitespace:
                     var whitespace = (WhitespaceToken)token;
-                    INode whitespaceNode = NodeBuilder.BuildWhitespaceNode();
+                    INode whitespaceNode = nodeBuilder.BuildWhitespaceNode();
                     AddOperand(whitespaceNode);
                     break;
                 case TokenType.NonNumeric:
                     var nonNumeric = (NonNumericToken)token;
-                    INode nonNumericNode = NodeBuilder.BuildNonNumericNode();
+                    INode nonNumericNode = nodeBuilder.BuildNonNumericNode();
                     AddOperand(nonNumericNode);
                     break;
                 case TokenType.NonWord:
                     var nonWord = (NonWordToken)token;
-                    INode nonWordNode = NodeBuilder.BuildNonWordNode();
+                    INode nonWordNode = nodeBuilder.BuildNonWordNode();
                     AddOperand(nonWordNode);
                     break;
                 case TokenType.NonWhitespace:
                     var nonWhitespace = (NonWhitespaceToken)token;
-                    INode nonWhitespaceNode = NodeBuilder.BuildNonWhitespaceNode();
+                    INode nonWhitespaceNode = nodeBuilder.BuildNonWhitespaceNode();
                     AddOperand(nonWhitespaceNode);
                     break;
                 default:

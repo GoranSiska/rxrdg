@@ -1,14 +1,21 @@
 ﻿
 namespace RegularExpressionDataGenerator
 {
-    public static class NodeBuilder
+    public class NodeBuilder
     {
-        public static LiteralNode BuildLiteralNode(LiteralToken literalToken)
+        public TokenBuilder TokenBuilder { get; }
+
+        public NodeBuilder()
+        {
+            TokenBuilder = new TokenBuilder();
+        }
+        
+        public LiteralNode BuildLiteralNode(LiteralToken literalToken)
         {
             return new LiteralNode(literalToken);
         }
 
-        public static RangeNode BuildRangeNode(LiteralToken from, LiteralToken to)
+        public RangeNode BuildRangeNode(LiteralToken from, LiteralToken to)
         {
             var rangeNode = new RangeNode(TokenBuilder.BuildRangeToken());
             rangeNode.ChildNodes.Add(BuildLiteralNode(from));
@@ -16,17 +23,17 @@ namespace RegularExpressionDataGenerator
             return rangeNode;
         }
 
-        public static RangeNode BuildAnyNode()
+        public RangeNode BuildAnyNode()
         {
             return BuildRangeNode(TokenBuilder.BuildLiteralToken((char)32), TokenBuilder.BuildLiteralToken((char)126));
         }
 
-        public static RangeNode BuildNumericNode()
+        public RangeNode BuildNumericNode()
         {
             return BuildRangeNode(TokenBuilder.BuildLiteralToken((char)48), TokenBuilder.BuildLiteralToken((char)57));
         }
 
-        public static BracketNode BuildWordNode()
+        public BracketNode BuildWordNode()
         {
             var numeric = BuildNumericNode();
             var uppercase = BuildRangeNode(TokenBuilder.BuildLiteralToken((char)65), TokenBuilder.BuildLiteralToken((char)90));
@@ -41,15 +48,15 @@ namespace RegularExpressionDataGenerator
             return set;
         }
 
-        public static BracketNode BuildWhitespaceNode()
+        public BracketNode BuildWhitespaceNode()
         {
             var space = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)32));
             var t = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)9));
             /*
-            var cr = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)13));
-            var nl = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)10));
-            var vt = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)11));
-            var ff = BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)12));
+            var cr = BuildLiteralNode(tokenBuilder.BuildLiteralToken((char)13));
+            var nl = BuildLiteralNode(tokenBuilder.BuildLiteralToken((char)10));
+            var vt = BuildLiteralNode(tokenBuilder.BuildLiteralToken((char)11));
+            var ff = BuildLiteralNode(tokenBuilder.BuildLiteralToken((char)12));
             */
 
             var set = new BracketNode(new BracketRightToken());
@@ -64,7 +71,7 @@ namespace RegularExpressionDataGenerator
             return set;
         }
 
-        public static NotNode BuildNonNumericNode()
+        public NotNode BuildNonNumericNode()
         {
             var numeric = BuildNumericNode();
             var not = new NotNode(new NotToken());
@@ -73,7 +80,7 @@ namespace RegularExpressionDataGenerator
             return not;
         }
 
-        public static NotNode BuildNonWordNode()
+        public NotNode BuildNonWordNode()
         {
             var word = BuildWordNode();
             var not = new NotNode(new NotToken());
@@ -82,7 +89,7 @@ namespace RegularExpressionDataGenerator
             return not;
         }
 
-        public static NotNode BuildNonWhitespaceNode()
+        public NotNode BuildNonWhitespaceNode()
         {
             var whitespace = BuildWhitespaceNode();
             var not = new NotNode(new NotToken());

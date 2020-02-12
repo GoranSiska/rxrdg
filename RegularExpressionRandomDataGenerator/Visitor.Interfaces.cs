@@ -3,6 +3,7 @@ namespace RegularExpressionDataGenerator
 {
     public interface IVisitor
     {
+        NodeBuilder NodeBuilder { get; }
         void Visit(LiteralNode node);
         void Visit(RepetitionNode node);
         void Visit(ConcatenationNode node);
