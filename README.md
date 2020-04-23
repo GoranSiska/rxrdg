@@ -18,3 +18,7 @@ Imagine building an entry form. It's not unusual to have regexp validating input
 Using rxrdg in the same scenario will help you leverage existing validation rules to create test data.
 
 It should be fairly simple to use rxrdg to create test data or even test objects even when no validation regexes exist.
+
+# Differences with the original repo
+1. This is updated for .NET Core 3.1
+2. It allows for concurrency which the original code did not
