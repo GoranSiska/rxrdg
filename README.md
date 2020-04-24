@@ -1,3 +1,7 @@
+# Differences with the original repo
+1. This is updated for .NET Core 3.1
+2. It allows for concurrency which the original code did not
+
 # What are Regular Expressions? (srsly?)
 A language for creating concise descriptions of search patterns.
 

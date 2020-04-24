@@ -6,12 +6,13 @@ namespace RegularExpressionDataGenerator
     {
         public IToken Handle(IContext context)
         {
+            var tokenBuilder = context.TokenBuilder;
             switch (context.Current)
             {
                 case '(':
-                    return TokenBuilder.BuildParenthesisLeftToken();
+                    return tokenBuilder.BuildParenthesisLeftToken();
                 case ')':
-                    return TokenBuilder.BuildParenthesisRightToken();
+                    return tokenBuilder.BuildParenthesisRightToken();
                 case '{':
                     context.ToState(new RepetitionState());
                     break;
@@ -20,19 +21,19 @@ namespace RegularExpressionDataGenerator
                     break;
                 case '[':
                     context.ToState(new BeginSetState());
-                    return TokenBuilder.BuildBracketLeftToken();
+                    return tokenBuilder.BuildBracketLeftToken();
                 case '*':
-                    return TokenBuilder.BuildZeroOrMoreToken();
+                    return tokenBuilder.BuildZeroOrMoreToken();
                 case '?':
-                    return TokenBuilder.BuildZeroOrOneToken();
+                    return tokenBuilder.BuildZeroOrOneToken();
                 case '+':
-                    return TokenBuilder.BuildOneOrMoreToken();
+                    return tokenBuilder.BuildOneOrMoreToken();
                 case '|':
-                    return TokenBuilder.BuildAlternationToken();
+                    return tokenBuilder.BuildAlternationToken();
                 case '.':
-                    return TokenBuilder.BuildAnyToken();
+                    return tokenBuilder.BuildAnyToken();
                 default:
-                    return TokenBuilder.BuildLiteralToken(context.Current);
+                    return tokenBuilder.BuildLiteralToken(context.Current);
             }
             return null;
         }
@@ -42,17 +43,18 @@ namespace RegularExpressionDataGenerator
     {
         public IToken Handle(IContext context)
         {
+            var tokenBuilder = context.TokenBuilder;
             switch (context.Current)
             {
                 case '^':
-                    return TokenBuilder.BuildNotToken();
+                    return tokenBuilder.BuildNotToken();
                 case '\\':
                     context.ToState(new SetState());
                     context.ToState(new EscapeState());
                     break;
                 default:
                     context.ToState(new SetState());
-                    return TokenBuilder.BuildLiteralToken(context.Current);
+                    return tokenBuilder.BuildLiteralToken(context.Current);
             }
             return null;
         }
@@ -62,19 +64,20 @@ namespace RegularExpressionDataGenerator
     {
         public IToken Handle(IContext context)
         {
+            var tokenBuilder = context.TokenBuilder;
             switch (context.Current)
             {
                 case ']':
                     context.EndState();
                     context.EndState();
-                    return TokenBuilder.BuildBracketRightToken();
+                    return tokenBuilder.BuildBracketRightToken();
                 case '-':
-                    return TokenBuilder.BuildRangeToken();
+                    return tokenBuilder.BuildRangeToken();
                 case '\\':
                     context.ToState(new EscapeState());
                     break;
                 default:
-                    return TokenBuilder.BuildLiteralToken(context.Current);
+                    return tokenBuilder.BuildLiteralToken(context.Current);
             }
             return null;
         }
@@ -84,23 +87,24 @@ namespace RegularExpressionDataGenerator
     {
         public IToken Handle(IContext context)
         {
+            var tokenBuilder = context.TokenBuilder;
             context.EndState();
             switch (context.Current)
             {
                 case 'd':
-                    return TokenBuilder.BuildNumericToken();
+                    return tokenBuilder.BuildNumericToken();
                 case 'w':
-                    return TokenBuilder.BuildWordToken();
+                    return tokenBuilder.BuildWordToken();
                 case 's':
-                    return TokenBuilder.BuildWhitespaceToken();
+                    return tokenBuilder.BuildWhitespaceToken();
                 case 'D':
-                    return TokenBuilder.BuildNonNumericToken();
+                    return tokenBuilder.BuildNonNumericToken();
                 case 'W':
-                    return TokenBuilder.BuildNonWordToken();
+                    return tokenBuilder.BuildNonWordToken();
                 case 'S':
-                    return TokenBuilder.BuildNonWhitespaceToken();
+                    return tokenBuilder.BuildNonWhitespaceToken();
                 default:
-                    return TokenBuilder.BuildLiteralToken(context.Current);
+                    return tokenBuilder.BuildLiteralToken(context.Current);
             }
         }
     }
@@ -112,8 +116,10 @@ namespace RegularExpressionDataGenerator
         bool _isParsingMinOccurs = true;
         bool _isParsingFirstValue = true;
         int _currentNumber;
+        
         public IToken Handle(IContext context)
         {
+            var tokenBuilder = context.TokenBuilder;
             var character = context.Current;
             switch (character)
             {
@@ -163,7 +169,7 @@ namespace RegularExpressionDataGenerator
                         }
                     }
                     context.EndState();
-                    return TokenBuilder.BuildRepetitionToken(_minOccurs, _maxOccurs);
+                    return tokenBuilder.BuildRepetitionToken(_minOccurs, _maxOccurs);
                 default:
                     var result = 0;
                     if(int.TryParse(character.ToString(), out result))

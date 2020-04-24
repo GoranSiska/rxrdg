@@ -36,6 +36,7 @@ namespace RegularExpressionDataGenerator
 
     public interface IContext
     {
+        TokenBuilder TokenBuilder { get; }
         IEnumerable<IToken> Tokenize(string expression);
         void ToState(IState state);
         void EndState();

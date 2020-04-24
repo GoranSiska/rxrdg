@@ -1,4 +1,5 @@
 ﻿using System;
+using RegularExpressionDataGenerator;
 
 namespace RxrdgDemoApp
 {
@@ -15,11 +16,13 @@ namespace RxrdgDemoApp
 
                 try
                 {
+                    var nodeBuilder = new NodeBuilder();
                     var rxrdg = new RegularExpressionDataGenerator.RegExpDataGenerator(param);
-
+                    var node = new RegularExpressionDataGenerator.Parser(nodeBuilder).Parse(param);
+                    
                     //show tree
                     Console.WriteLine();
-                    Console.WriteLine(RegularExpressionDataGenerator.XmlVisitor.Visit(new RegularExpressionDataGenerator.Parser().Parse(param)));
+                    Console.WriteLine(RegularExpressionDataGenerator.XmlVisitor.Visit(node, nodeBuilder));
                     Console.WriteLine("-------");
                     Console.WriteLine();
 
