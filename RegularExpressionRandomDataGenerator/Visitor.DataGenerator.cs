@@ -9,13 +9,16 @@ namespace RegularExpressionDataGenerator
     {
         private const int DefaultMaxOccurs = 11;
         private readonly StringBuilder _builder = new StringBuilder();
-        
-        private GeneratorVisitor()
-        { }
+        public NodeBuilder NodeBuilder { get; }
 
-        public static string Visit(INode node)
+        private GeneratorVisitor(NodeBuilder nodeBuilder)
         {
-            var visitor = new GeneratorVisitor();
+            this.NodeBuilder = nodeBuilder;
+        }
+
+        public static string Visit(INode node, NodeBuilder nodeBuilder)
+        {
+            var visitor = new GeneratorVisitor(nodeBuilder);
             node.Accept(visitor);
             return visitor._builder.ToString();
         }
@@ -91,7 +94,7 @@ namespace RegularExpressionDataGenerator
             var min = (int)((LiteralNode)node.ChildNodes[0]).Token.Character;
             var max = (int)((LiteralNode)node.ChildNodes[1]).Token.Character;
             var index = RandomNumberProvider.GetRandomNumber(min, max + 1);
-            var literal = new LiteralNode(TokenBuilder.BuildLiteralToken((char)index));
+            var literal = new LiteralNode(NodeBuilder.TokenBuilder.BuildLiteralToken((char)index));
             literal.Accept(this);             
         }
 
@@ -100,7 +103,7 @@ namespace RegularExpressionDataGenerator
             var nodes = new LiteralNodeCollection();
             for (var i = 32; i < 126; i++)
             {
-                nodes.Add(NodeBuilder.BuildLiteralNode(TokenBuilder.BuildLiteralToken((char)i)));
+                nodes.Add(NodeBuilder.BuildLiteralNode(NodeBuilder.TokenBuilder.BuildLiteralToken((char)i)));
             }
 
             INode current = node;
@@ -121,7 +124,7 @@ namespace RegularExpressionDataGenerator
             nodes[index].Accept(this);
         }
 
-        private static IEnumerable<LiteralNode> Expand(INode bracketNode)
+        private IEnumerable<LiteralNode> Expand(INode bracketNode)
         {
             foreach (var childNode in bracketNode.ChildNodes)
             {
@@ -136,7 +139,7 @@ namespace RegularExpressionDataGenerator
                         for (var i = min; i <= max; i++)
                         {
                             var c = (char)i;
-                            yield return NodeBuilder.BuildLiteralNode(TokenBuilder.BuildLiteralToken(c));
+                            yield return NodeBuilder.BuildLiteralNode(NodeBuilder.TokenBuilder.BuildLiteralToken(c));
                         }
                         break;
                     case TokenType.BracketRight:

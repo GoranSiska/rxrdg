@@ -9,11 +9,11 @@ namespace RegularExpressionDataGenerator
         }
     }
 
-    public static class TokenBuilder
+    public class TokenBuilder
     {
-        private static readonly object Padlock = new object();
-        private static readonly LiteralTokenCollection LiteralTokens = new LiteralTokenCollection();
-        public static LiteralToken BuildLiteralToken(char character)
+        private readonly object Padlock = new object();
+        private readonly LiteralTokenCollection LiteralTokens = new LiteralTokenCollection();
+        public LiteralToken BuildLiteralToken(char character)
         {
             //return new LiteralToken() { Character = character };
             if (LiteralTokens.Contains(character) == false)
@@ -26,92 +26,92 @@ namespace RegularExpressionDataGenerator
             return LiteralTokens[character];
         }
 
-        public static RepetitionToken BuildZeroOrMoreToken()
+        public RepetitionToken BuildZeroOrMoreToken()
         {
             return BuildRepetitionToken(0, -1);
         }
 
-        public static RepetitionToken BuildOneOrMoreToken()
+        public RepetitionToken BuildOneOrMoreToken()
         {
             return BuildRepetitionToken(1, -1);
         }
 
-        public static RepetitionToken BuildZeroOrOneToken()
+        public RepetitionToken BuildZeroOrOneToken()
         {
             return BuildRepetitionToken(0, 1);
         }
 
-        public static RepetitionToken BuildRepetitionToken(int minOccurs, int maxOccurs)
+        public RepetitionToken BuildRepetitionToken(int minOccurs, int maxOccurs)
         {
             return new RepetitionToken { MinOccurs = minOccurs, MaxOccurs = maxOccurs};
         }
 
-        public static ParenthesisLeftToken BuildParenthesisLeftToken()
+        public ParenthesisLeftToken BuildParenthesisLeftToken()
         {
             return new ParenthesisLeftToken();
         }
 
-        public static ParenthesisRightToken BuildParenthesisRightToken()
+        public ParenthesisRightToken BuildParenthesisRightToken()
         {
             return new ParenthesisRightToken();
         }
 
-        public static AlternationToken BuildAlternationToken()
+        public AlternationToken BuildAlternationToken()
         {
             return new AlternationToken();
         }
 
-        public static BracketRightToken BuildBracketRightToken()
+        public BracketRightToken BuildBracketRightToken()
         {
             return new BracketRightToken();
         }
 
-        public static BracketLeftToken BuildBracketLeftToken()
+        public BracketLeftToken BuildBracketLeftToken()
         {
             return new BracketLeftToken();
         }
 
-        public static RangeToken BuildRangeToken()
+        public RangeToken BuildRangeToken()
         {
             return new RangeToken();
         }
 
-        public static NotToken BuildNotToken()
+        public NotToken BuildNotToken()
         {
             return new NotToken();
         }
 
-        public static AnyToken BuildAnyToken()
+        public AnyToken BuildAnyToken()
         {
             return new AnyToken();
         }
 
-        public static NumericToken BuildNumericToken()
+        public NumericToken BuildNumericToken()
         {
             return new NumericToken();
         }
 
-        public static WordToken BuildWordToken()
+        public WordToken BuildWordToken()
         {
             return new WordToken();
         }
 
-        public static WhitespaceToken BuildWhitespaceToken()
+        public WhitespaceToken BuildWhitespaceToken()
         {
             return new WhitespaceToken();
         }
 
-        public static NonNumericToken BuildNonNumericToken()
+        public NonNumericToken BuildNonNumericToken()
         {
             return new NonNumericToken();
         }
 
-        public static NonWordToken BuildNonWordToken()
+        public NonWordToken BuildNonWordToken()
         {
             return new NonWordToken();
         }
 
-        public static NonWhitespaceToken BuildNonWhitespaceToken()
+        public NonWhitespaceToken BuildNonWhitespaceToken()
         {
             return new NonWhitespaceToken();
         }
